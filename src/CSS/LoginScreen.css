@@ -1,0 +1,14 @@
+.main {
+    margin: 70px auto 28px;
+    padding: 2% 2% 2%;
+    position: relative;
+}
+
+.content {
+    text-align: center;
+}
+
+.logo {
+    font-size: 40px;
+    font-weight: bolder;
+}
