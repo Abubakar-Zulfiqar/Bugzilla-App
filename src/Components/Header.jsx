@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { getDatabase, ref, child, get } from 'firebase/database'
 
@@ -9,7 +9,6 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 
 import { LogoutUser } from '../Redux/users/userActions'
-import { ManageProjectList } from '../Redux/projects/projectActions'
 import { useFirebase } from '../Firebase/Firebase'
 
 const style = {
@@ -24,7 +23,13 @@ const style = {
     width: 400,
     color: 'text.primary',
 }
-const Header = (props) => {
+const Header = () => {
+    const user = useSelector(state => state.user.user)
+    // eslint-disable-next-line no-unused-vars
+    const userList = useSelector(state => state.user.userList)
+    // eslint-disable-next-line no-unused-vars
+    const projectActions = useSelector(state => state.projects.projects)
+    const dispatch = useDispatch()
 
     const [open, setOpen] = useState(false)
     const [name, setName] = useState('')
@@ -61,7 +66,7 @@ const Header = (props) => {
         setDesc('')
         setAssignee('')
     }
-    const logout = () => props.LogoutUser()
+    const logout = () => LogoutUser()
     const addProject = () => {
         if (name && desc && assignee) {
             let id = new Date().getTime()
@@ -104,8 +109,8 @@ const Header = (props) => {
                             Bugzilla
                         </Typography>
 
-                        {props.user.role === 'manager' && <Button onClick={handleOpen} variant='contained'>Create Project</Button>}
-                        <Button style={{ marginLeft: 10 }} onClick={logout} variant='contained'>Logout</Button>
+                        {user.role === 'manager' && <Button onClick={handleOpen} variant='contained'>Create Project</Button>}
+                        <Button style={{ marginLeft: 10 }} onClick={() => dispatch(logout())} variant='contained'>Logout</Button>
 
                         <Modal
                             open={open}
@@ -135,7 +140,7 @@ const Header = (props) => {
                                             })
                                         }
                                     </select>
-                                    <Button onClick={addProject} variant='contained'>Add project</Button>
+                                    <Button onClick={() => dispatch(addProject())} variant='contained'>Add project</Button>
                                 </div>
                             </Box>
                         </Modal>
@@ -146,18 +151,4 @@ const Header = (props) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.user.user,
-        userList: state.user.usersList,
-        projects: state.projects.projects
-    }
-}
-const mapDispathToProps = dispatch => {
-    return {
-        LogoutUser: () => dispatch(LogoutUser()),
-        manageProjectsList: (data) => dispatch(ManageProjectList(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispathToProps)(Header)
+export default Header

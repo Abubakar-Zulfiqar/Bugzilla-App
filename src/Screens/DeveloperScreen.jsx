@@ -1,15 +1,21 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { getDatabase, ref, onValue, set } from 'firebase/database'
 import { Button, Card, Grid } from '@mui/material'
 
-import { manageBugsList, ManageProjectList } from '../Redux/projects/projectActions'
 import Header from '../Components/Header'
 
 import '../CSS/ManagerScreen.css'
 
-const DeveloperScreen = (props) => {
+const DeveloperScreen = () => {
+    const user = useSelector(state => state.user.user)
+    const userList = useSelector(state => state.user.userList)
+    const projectActions = useSelector(state => state.projects.projects)
+    const projectsBugs = useSelector(state => state.projects.bugs)
+    const dispatch = useDispatch()
+
     const [anchorEl, setAnchorEl] = useState(null)
     const [bugs, setBugs] = useState([])
 
@@ -20,7 +26,7 @@ const DeveloperScreen = (props) => {
         onValue(users, (snapshot) => {
             if (snapshot.val()) {
                 const data = Object.values(snapshot.val())
-                let bugs = data.filter(e => e.assignee === props.user.id)
+                let bugs = data.filter(e => e.assignee === user.id)
                 console.log('bugs)', bugs)
                 setBugs(bugs)
             } else {
@@ -28,7 +34,7 @@ const DeveloperScreen = (props) => {
                 setBugs([])
             }
         })
-    }, [db, props.user.id])
+    }, [db, user.id])
 
     const open = Boolean(anchorEl)
     const handleClick = (item) => {
@@ -81,7 +87,7 @@ const DeveloperScreen = (props) => {
                                                 aria-expanded={open ? 'true' : undefined}
                                                 variant='contained'
                                                 disableElevation
-                                                onClick={() => { handleClick(item) }}
+                                                onClick={() => dispatch(handleClick(item))}
                                             >
                                                 Mark as Resolve
                                             </Button>
@@ -96,19 +102,4 @@ const DeveloperScreen = (props) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.user.user,
-        userList: state.user.usersList,
-        projects: state.projects.projects,
-        bugs: state.projects.bugs
-    }
-}
-const mapDispathToProps = dispatch => {
-    return {
-        manageProjectsList: (data) => dispatch(ManageProjectList(data)),
-        manageBugsList: (data) => dispatch(manageBugsList(data)),
-    }
-}
-
-export default connect(mapStateToProps, mapDispathToProps)(DeveloperScreen)
+export default DeveloperScreen
