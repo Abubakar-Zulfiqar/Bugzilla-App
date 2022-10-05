@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { getDatabase, ref, onValue } from 'firebase/database'
 import { Button, Card, Grid, TextField, Typography } from '@mui/material'
@@ -8,7 +9,6 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 
 import { useFirebase } from '../Firebase/Firebase'
-import { ManageProjectList, manageBugsList } from '../Redux/projects/projectActions'
 import Header from '../Components/Header'
 
 import '../CSS/ManagerScreen.css'
@@ -25,7 +25,13 @@ const style = {
     width: 400
 }
 
-const QAScreen = (props) => {
+const QAScreen = () => {
+    const user = useSelector(state => state.user.user)
+    const userList = useSelector(state => state.user.userList)
+    const projectActions = useSelector(state => state.projects.projects)
+    const projectsBugs = useSelector(state => state.projects.bugs)
+    const dispatch = useDispatch()
+
     const db = getDatabase()
     const firebase = useFirebase()
 
@@ -81,7 +87,7 @@ const QAScreen = (props) => {
             let id = new Date().getTime()
             let BugsObject = {
                 id: id,
-                createdBy: props.user.name,
+                createdBy: user.name,
                 projectName: currentProject.name,
                 deadline: deadline,
                 status: 'Not Resolved',
@@ -109,7 +115,7 @@ const QAScreen = (props) => {
             <Header />
             <Grid item xs={2} sx={{ display: 'flex', flexDirection: 'row' }}>
                 {
-                    projects.filter(e => e.assignee === props.user.id).map((item, index) => {
+                    projects.filter(e => e.assignee === user.id).map((item, index) => {
                         return (
                             <Card key={index} className='main-content' elevation={9} sx={{ maxWidth: 300 }}>
                                 <Grid className='first-content' container>
@@ -160,7 +166,7 @@ const QAScreen = (props) => {
                                 })
                             }
                         </select>
-                        <Button onClick={() => reportBug()} variant='contained'>Report Bug</Button>
+                        <Button onClick={() => dispatch(reportBug())} variant='contained'>Report Bug</Button>
                     </div>
                 </Box>
             </Modal>
@@ -168,19 +174,4 @@ const QAScreen = (props) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.user.user,
-        userList: state.user.usersList,
-        projects: state.projects.projects,
-        bugs: state.projects.bugs
-    }
-}
-const mapDispathToProps = dispatch => {
-    return {
-        manageProjectsList: (data) => dispatch(ManageProjectList(data)),
-        manageBugsList: (data) => dispatch(manageBugsList(data)),
-    }
-}
-
-export default connect(mapStateToProps, mapDispathToProps)(QAScreen)
+export default QAScreen

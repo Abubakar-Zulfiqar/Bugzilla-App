@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 
 import { getDatabase, ref, onValue, set } from 'firebase/database'
 import { Button, Card, Grid } from '@mui/material'
@@ -10,7 +10,12 @@ import Header from '../Components/Header'
 
 import '../CSS/ManagerScreen.css'
 
-const ManagerScreen = (props) => {
+const ManagerScreen = () => {
+    const user = useSelector(state => state.user.user)
+    const userList = useSelector(state => state.user.userList)
+    const projectActions = useSelector(state => state.projects.projects)
+    const dispatch = useDispatch()
+
     const [anchorEl, setAnchorEl] = useState(null)
     const [projects, setProjects] = useState([])
 
@@ -72,9 +77,7 @@ const ManagerScreen = (props) => {
                                         aria-expanded={open ? 'true' : undefined}
                                         variant='contained'
                                         disableElevation
-                                        onClick={() => {
-                                            deleteProject(item)
-                                        }}
+                                        onClick={() => dispatch(deleteProject(item))}
                                     >
                                         Delete
                                     </Button>

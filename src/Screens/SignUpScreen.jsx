@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Button, Card, Grid, Link, TextField } from '@mui/material'
 
@@ -10,7 +11,11 @@ import '../CSS/LoginScreen.css'
 
 
 
-const SignUpScreen = (props) => {
+const SignUpScreen = () => {
+    const user = useSelector(state => state.user.user)
+    const userList = useSelector(state => state.user.userList)
+    const projectActions = useSelector(state => state.projects.projects)
+    const dispatch = useDispatch()
 
     const firebase = useFirebase()
 
@@ -34,7 +39,7 @@ const SignUpScreen = (props) => {
                 console.log('this is userinfo to be store->', user)
                 firebase.putData('users/' + id, { id, email, name, role })
                     .then(res => {
-                        props.LoginUser({ id, email, name, role })
+                        LoginUser({ id, email, name, role })
                     })
                     .catch(err => {
                         alert('err on putting data in signup')
@@ -80,10 +85,8 @@ const SignUpScreen = (props) => {
 
                     <Grid item xs={12}>
                         <Button
-                            onClick={() => onSignup()} type='submit' variant='contained'>
-                            {/* <Link href='/signin' sx={{ color: 'white' }}> */}
+                            onClick={() => dispatch(onSignup())} type='submit' variant='contained'>
                             Sign Up
-                            {/* </Link> */}
                         </Button>
                     </Grid>
                     <Grid item xs={12}>
@@ -95,17 +98,4 @@ const SignUpScreen = (props) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.user.user,
-        userList: state.user.usersList,
-        projects: state.projects.projects
-    }
-}
-const mapDispathToProps = dispatch => {
-    return {
-        LoginUser: (data) => dispatch(LoginUser(data)),
-    }
-}
-
-export default connect(mapStateToProps, mapDispathToProps)(SignUpScreen)
+export default SignUpScreen
