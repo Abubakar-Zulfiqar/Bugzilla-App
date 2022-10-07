@@ -140,6 +140,7 @@ const QAScreen = () => {
                 }
             </Grid>
             <Modal
+                sx={{ color: 'text.primary' }}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby='modal-modal-title'
