@@ -45,17 +45,15 @@ const Header = () => {
         get(child(dbRef, `users/`)).then((snapshot) => {
             if (snapshot.exists()) {
                 let users = snapshot.val()
-                console.log('users', users)
                 let array = Object.values(users)
                 let qaArray = array.filter(e => e.role === 'qa')
-                console.log('qa array', qaArray)
                 setQa(qaArray)
                 //   props.LoginUser(user)
             } else {
-                console.log('No data available')
+                alert('No data available')
             }
         }).catch((error) => {
-            console.error(error)
+            alert(error)
         })
     }, [dbRef])
 
@@ -80,15 +78,13 @@ const Header = () => {
             }
             firebase.putData('projects/' + id, projectObject)
                 .then(() => {
-                    console.log('res on putting data projects->')
                     setOpen(false)
                     setName('')
                     setDesc('')
                     setAssignee('')
                 })
                 .catch(err => {
-                    console.log('err on putting data', err)
-                    alert('err on putting data in signup')
+                    alert('err on putting data', err)
                 })
         } else {
             alert('missing information')

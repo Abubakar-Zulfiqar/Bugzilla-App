@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { getDatabase, ref, onValue, set } from 'firebase/database'
 import { Button, Card, Grid } from '@mui/material'
@@ -27,10 +27,9 @@ const ManagerScreen = () => {
         onValue(projs, (snapshot) => {
             if (snapshot.val()) {
                 const data = Object.values(snapshot.val())
-                console.log('projectsss->', data)
                 setProjects(data)
             } else {
-                console.log('no project')
+                alert('no project')
                 setProjects([])
             }
         })
@@ -44,7 +43,6 @@ const ManagerScreen = () => {
     }
 
     const deleteProject = (project) => {
-        console.log('ksdjfljsf', project)
         set(ref(db, `projects/${project.id}`), {
 
         })
@@ -91,17 +89,4 @@ const ManagerScreen = () => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.user.user,
-        userList: state.user.usersList,
-        projects: state.projects.projects
-    }
-}
-const mapDispathToProps = dispatch => {
-    return {
-        manageProjectsList: (data) => dispatch(ManageProjectList(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispathToProps)(ManagerScreen)
+export default ManagerScreen

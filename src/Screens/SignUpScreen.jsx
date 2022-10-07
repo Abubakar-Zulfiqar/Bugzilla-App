@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 
 import { Button, Card, Grid, Link, TextField } from '@mui/material'
 
-import { useFirebase } from '../Firebase/Firebase';
-import { LoginUser } from '../Redux/users/userActions';
+import { useFirebase } from '../Firebase/Firebase'
+import { LoginUser } from '../Redux/users/userActions'
 
 import '../CSS/LoginScreen.css'
 
@@ -29,7 +29,7 @@ const SignUpScreen = (props) => {
                     // password: '12345678',
                     role: role
                 }
-                console.log('this is userinfo to be store->', user)
+                alert('this is userinfo to be store->', user)
                 firebase.putData('users/' + id, { id, email, name, role })
                     .then(res => {
                         props.LoginUser({ id, email, name, role })
