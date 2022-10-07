@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
-import { getDatabase, ref, child, get } from "firebase/database";
+import { getDatabase, ref, child, get } from 'firebase/database'
 import { Button, Card, Grid, Link, TextField } from '@mui/material'
 
 import { LoginUser } from '../Redux/users/userActions'
@@ -19,24 +19,23 @@ const SignInScreen = (props) => {
     const onLogin = () => {
         if (email && password) {
             firebase.signinUser(email, password).then(res => {
-                console.log('res in signin', res)
+                alert('res in signin', res)
                 let id = res._tokenResponse.localId
 
-                const dbRef = ref(getDatabase());
+                const dbRef = ref(getDatabase())
                 get(child(dbRef, `users/${id}`)).then((snapshot) => {
                     if (snapshot.exists()) {
-                        console.log('user data', snapshot.val());
+                        alert('user data', snapshot.val())
                         let user = snapshot.val()
                         props.LoginUser(user)
                     } else {
-                        console.log("No data available");
                         alert('no data avialable')
                     }
                 }).catch((error) => {
-                    console.error(error);
-                });
+                    alert(error)
+                })
             }).catch(err => {
-                console.log('err on signin', err.message);
+                alert('err on signin', err.message)
                 alert(err.message)
             })
         } else {

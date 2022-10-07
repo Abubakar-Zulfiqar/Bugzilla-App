@@ -1,21 +1,14 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 
 import { Button, Card, Grid, Link, TextField } from '@mui/material'
 
-import { useFirebase } from '../Firebase/Firebase';
-import { LoginUser } from '../Redux/users/userActions';
+import { useFirebase } from '../Firebase/Firebase'
+import { LoginUser } from '../Redux/users/userActions'
 
 import '../CSS/LoginScreen.css'
 
-
-
-const SignUpScreen = () => {
-    const user = useSelector(state => state.user.user)
-    const userList = useSelector(state => state.user.userList)
-    const projectActions = useSelector(state => state.projects.projects)
-    const dispatch = useDispatch()
+const SignUpScreen = (props) => {
 
     const firebase = useFirebase()
 
@@ -36,10 +29,10 @@ const SignUpScreen = () => {
                     // password: '12345678',
                     role: role
                 }
-                console.log('this is userinfo to be store->', user)
+                alert('this is userinfo to be store->', user)
                 firebase.putData('users/' + id, { id, email, name, role })
                     .then(res => {
-                        LoginUser({ id, email, name, role })
+                        props.LoginUser({ id, email, name, role })
                     })
                     .catch(err => {
                         alert('err on putting data in signup')
@@ -85,7 +78,7 @@ const SignUpScreen = () => {
 
                     <Grid item xs={12}>
                         <Button
-                            onClick={() => dispatch(onSignup())} type='submit' variant='contained'>
+                            onClick={() => onSignup()} type='submit' variant='contained'>
                             Sign Up
                         </Button>
                     </Grid>
@@ -98,4 +91,17 @@ const SignUpScreen = () => {
     )
 }
 
-export default SignUpScreen
+const mapStateToProps = state => {
+    return {
+        user: state.user.user,
+        userList: state.user.usersList,
+        projects: state.projects.projects
+    }
+}
+const mapDispathToProps = dispatch => {
+    return {
+        LoginUser: (data) => dispatch(LoginUser(data)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispathToProps)(SignUpScreen)

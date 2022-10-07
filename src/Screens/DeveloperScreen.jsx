@@ -27,10 +27,9 @@ const DeveloperScreen = () => {
             if (snapshot.val()) {
                 const data = Object.values(snapshot.val())
                 let bugs = data.filter(e => e.assignee === user.id)
-                console.log('bugs)', bugs)
                 setBugs(bugs)
             } else {
-                console.log('no bugs')
+                alert('no bugs')
                 setBugs([])
             }
         })
@@ -48,14 +47,11 @@ const DeveloperScreen = () => {
             assignee: item.assignee
 
         }
-        console.log('fff->', a)
         set(ref(db, `bugs/${item.id}`), a)
     }
     const handleClose = () => {
         setAnchorEl(null)
     }
-    console.log(handleClose)
-
     return (
         <>
             <Header />

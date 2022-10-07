@@ -13,8 +13,8 @@ import { ColorModeContext } from './Theme/Theme'
 
 const App = (props) => {
 
+  // eslint-disable-next-line no-unused-vars
   const { mode, toggleMode } = useContext(ColorModeContext)
-  console.log('Mode is', mode)
 
   return (
     <>

@@ -51,10 +51,9 @@ const QAScreen = () => {
         onValue(projs, (snapshot) => {
             if (snapshot.val()) {
                 const data = Object.values(snapshot.val())
-                console.log('projectsss->', data)
                 setProjects(data)
             } else {
-                console.log('no project')
+                alert('no project')
                 setProjects([])
             }
         })
@@ -64,10 +63,9 @@ const QAScreen = () => {
             if (snapshot.val()) {
                 const data = Object.values(snapshot.val())
                 let devs = data.filter(e => e.role === 'developer')
-                console.log('devs)', devs)
                 setDevs(devs)
             } else {
-                console.log('no project')
+                alert('no project')
                 setDevs([])
             }
         })
@@ -96,15 +94,13 @@ const QAScreen = () => {
             }
             firebase.putData('bugs/' + id, BugsObject)
                 .then(() => {
-                    console.log('res on putting data projects->')
                     setOpen(false)
                     setDesc('')
                     setDeadline('')
                     setAssignee('')
                 })
                 .catch(err => {
-                    console.log('err on putting data', err)
-                    alert('err on putting data in signup')
+                    alert('err on putting data', err)
                 })
         } else {
             alert('missing information')
@@ -140,6 +136,7 @@ const QAScreen = () => {
                 }
             </Grid>
             <Modal
+                sx={{ color: 'text.primary' }}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby='modal-modal-title'
