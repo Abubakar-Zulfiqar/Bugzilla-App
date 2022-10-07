@@ -53,7 +53,6 @@ const QAScreen = () => {
                 const data = Object.values(snapshot.val())
                 setProjects(data)
             } else {
-                alert('no project')
                 setProjects([])
             }
         })
@@ -65,7 +64,6 @@ const QAScreen = () => {
                 let devs = data.filter(e => e.role === 'developer')
                 setDevs(devs)
             } else {
-                alert('no project')
                 setDevs([])
             }
         })

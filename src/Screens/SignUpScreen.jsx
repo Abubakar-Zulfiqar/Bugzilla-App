@@ -22,6 +22,7 @@ const SignUpScreen = (props) => {
         if (email && password && name) {
             firebase.signupUser(email, password).then(res => {
                 let id = res._tokenResponse.localId
+                // eslint-disable-next-line no-unused-vars
                 let user = {
                     id: id,
                     name: name,
@@ -29,7 +30,6 @@ const SignUpScreen = (props) => {
                     // password: '12345678',
                     role: role
                 }
-                alert('this is userinfo to be store->', user)
                 firebase.putData('users/' + id, { id, email, name, role })
                     .then(res => {
                         props.LoginUser({ id, email, name, role })
