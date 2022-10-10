@@ -5,13 +5,13 @@ import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } f
 import { getDatabase, set, ref } from 'firebase/database'
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyBvlEs5ocFt9ehSPlBkDPik840nQZ4Vi_Q',
-    authDomain: 'bugzilla-app-7491d.firebaseapp.com',
-    projectId: 'bugzilla-app-7491d',
-    storageBucket: 'bugzilla-app-7491d.appspot.com',
-    messagingSenderId: '927231564452',
-    appId: '1:927231564452:web:e6d1b7f779dacd81856431',
-    databaseURL: 'https://bugzilla-app-7491d-default-rtdb.firebaseio.com/'
+    apiKey: `${process.env.REACT_APP_API_KEY}`,
+    authDomain: `${process.env.REACT_APP_AUTH_DOMAIN}`,
+    projectId: `${process.env.REACT_APP_PROJECT_ID}`,
+    storageBucket: `${process.env.REACT_APP_STORAGE_BUCKET}`,
+    messagingSenderId: `${process.env.REACT_APP_MESSAGING_SENDER_ID}`,
+    appId: `${process.env.REACT_APP_APP_ID}`,
+    databaseURL: process.env.REACT_APP_DATABASE_URL
 }
 
 export const firebaseApp = initializeApp(firebaseConfig)
