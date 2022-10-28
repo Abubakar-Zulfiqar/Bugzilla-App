@@ -29,7 +29,6 @@ const DeveloperScreen = () => {
                 let bugs = data.filter(e => e.assignee === user.id)
                 setBugs(bugs)
             } else {
-                alert('no bugs')
                 setBugs([])
             }
         })
