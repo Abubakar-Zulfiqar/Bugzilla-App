@@ -19,13 +19,11 @@ const SignInScreen = (props) => {
     const onLogin = () => {
         if (email && password) {
             firebase.signinUser(email, password).then(res => {
-                alert('res in signin', res)
                 let id = res._tokenResponse.localId
 
                 const dbRef = ref(getDatabase())
                 get(child(dbRef, `users/${id}`)).then((snapshot) => {
                     if (snapshot.exists()) {
-                        alert('user data', snapshot.val())
                         let user = snapshot.val()
                         props.LoginUser(user)
                     } else {
@@ -36,7 +34,6 @@ const SignInScreen = (props) => {
                 })
             }).catch(err => {
                 alert('err on signin', err.message)
-                alert(err.message)
             })
         } else {
             alert('incomplete credentials')

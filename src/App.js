@@ -4,12 +4,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 import { Button } from '@mui/material'
 
-import SignInScreen from './Screens/SignInScreen'
-import ManagerScreen from './Screens/ManagerScreen'
-import DeveloperScreen from './Screens/DeveloperScreen'
-import QAScreen from './Screens/QAScreen'
-import SignUpScreen from './Screens/SignUpScreen'
 import { ColorModeContext } from './Theme/Theme'
+import { DeveloperScreen, ManagerScreen, QAScreen, SignInScreen, SignUpScreen } from './Screens'
 
 const App = (props) => {
 

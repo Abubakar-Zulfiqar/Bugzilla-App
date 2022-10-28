@@ -29,7 +29,6 @@ const ManagerScreen = () => {
                 const data = Object.values(snapshot.val())
                 setProjects(data)
             } else {
-                alert('no project')
                 setProjects([])
             }
         })
